@@ -1,0 +1,54 @@
+.projects {
+  width: 100%;
+  height: 100%;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-container {
+  width: 100%;
+  position: relative;
+}
+
+.project {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 6rem;
+  box-shadow: inset 0 -2px 0 currentColor;
+  width: 100%;
+
+  &:is(:hover) {
+    & .title {
+      font-style: italic;
+    }
+
+    & .arrow {
+      transform: translateX(1rem);
+    }
+  }
+}
+
+.project-detail {
+  width: 100%;
+  height: fit-content;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.description {
+  font-size: 0.7em;
+  position: absolute;
+  bottom: 0.2rem;
+}
+
+.arrow {
+  height: 2rem;
+  width: 2rem;
+  transition: transform 0.25s ease-in;
+}

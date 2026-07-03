@@ -1,0 +1,80 @@
+.root {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100svh;
+
+  @supports not (min-height: 100svh) {
+    min-height: -webkit-fill-available;
+  }
+}
+
+.title {
+  padding: clamp(1rem, 0.455rem + 2.73vw, 2.5rem);
+  position: relative;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+
+  @supports not (height: 100svh) {
+    height: -webkit-fill-available;
+  }
+
+  & h2 {
+    z-index: 2;
+    color: var(--dark-color);
+    font-size: clamp(3.5rem, 0.545rem + 12.61vw, 10rem);
+    & :is(em, i) {
+      white-space: nowrap;
+    }
+  }
+}
+
+.artwork {
+  overflow: visible;
+  height: 100svh;
+  padding-block: 8rem;
+
+  @supports not (min-height: 100svh) {
+    min-height: -webkit-fill-available;
+  }
+}
+
+.carousel {
+  height: 100%;
+  display: flex;
+  cursor: none !important;
+}
+
+.image-container {
+  flex: 0 0 auto;
+  display: flex;
+
+  & img {
+    margin-right: 5rem;
+  }
+
+  &[data-format="fullWidth"] {
+    margin-top: 5rem;
+    height: 60%;
+  }
+
+  &[data-format="square"] {
+    margin-top: 3.5rem;
+    height: 75%;
+  }
+}
+
+.animated-overlay {
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  -webkit-mask: url("/ink.png");
+  mask: url("/ink.png");
+  -webkit-mask-size: 2500% 100%;
+  mask-size: 2500% 100%;
+  mask-position: 0 0;
+  -webkit-mask-position: 0 0;
+  pointer-events: none;
+  background: black;
+}

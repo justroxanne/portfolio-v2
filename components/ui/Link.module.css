@@ -1,0 +1,16 @@
+.root {
+  cursor: none;
+
+  &[data-variant="animated-underline"] {
+    background-image: linear-gradient(currentcolor, currentcolor);
+    background-repeat: no-repeat;
+    background-position: bottom 0 left 100%;
+    background-size: 0 2px;
+    transition: background-size 0.3s ease-out;
+
+    &:is(:hover, :focus-visible) {
+      background-size: 100% 2px;
+      background-position: bottom 0 right 100%;
+    }
+  }
+}

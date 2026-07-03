@@ -1,0 +1,2 @@
+@custom-media --screen-lg (min-width: 768px);
+@custom-media --motion-safe (prefers-reduced-motion: no-preference);
