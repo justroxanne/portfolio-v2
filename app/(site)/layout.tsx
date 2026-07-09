@@ -22,7 +22,10 @@ export async function generateMetadata() {
   const { seo } = settings;
 
   return {
-    metadataBase: new URL("https://www.roxannelucas.fr/"),
+    metadataBase: new URL("https://roxannelucas.fr"),
+    alternates: {
+      canonical: "/",
+    },
     title: seo?.title ?? "Roxanne Lucas",
     description: seo?.description ?? "",
     openGraph: {
