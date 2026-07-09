@@ -5,12 +5,13 @@ import stepType from "./objects/stepType";
 import linkType from "./objects/linkType";
 import settingsType from "./singleton/settingsType";
 import drawingType from "./documents/drawingType";
+import seo from "./objects/seo";
 
 const structure = [homepageType, settingsType];
 
 const documents = [projectType, drawingType];
 
-const objects = [stepType, linkType];
+const objects = [stepType, linkType, seo];
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [...structure, ...documents, ...objects],

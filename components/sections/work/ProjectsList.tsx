@@ -1,15 +1,15 @@
 "use client";
 
 import { useCursor } from "@/components/providers/CursorProvider";
-import { PROJECTS_QUERYResult } from "@/sanity.types";
 import Arrow from "@/components/icons/Arrow";
 import Link from "@/components/ui/Link";
 import styles from "./ProjectsList.module.css";
+import { ProjectType } from "@/sanity/lib/types";
 
 export default function ProjectsList({
   projects,
 }: {
-  projects: PROJECTS_QUERYResult;
+  projects: ProjectType[];
 }) {
   const { setBackgroundImageSrc } = useCursor();
 
@@ -21,14 +21,14 @@ export default function ProjectsList({
           key={project?._id}
           onMouseOver={() => {
             setBackgroundImageSrc(
-              project?.image?.asset?.url ? project?.image?.asset?.url : ""
+              project?.image?.asset?.url ? project?.image?.asset?.url : "",
             );
           }}
           onMouseLeave={() => {
             setBackgroundImageSrc("");
           }}
         >
-          <Link className={styles.project} to={project.link!}>
+          <Link className={styles.project} href={project.link!}>
             <h2 className={styles.title}>{project.title}</h2>
             <span className={styles.description}>
               {project.description} • {project.stack}

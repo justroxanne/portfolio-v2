@@ -17,17 +17,21 @@ export default defineType({
       type: "image",
     }),
     defineField({
+      name: "description",
+      type: "string",
+    }),
+    defineField({
       name: "medium",
       type: "string",
     }),
     defineField({
-      name: "rendering",
-      title: "Rendu",
+      name: "ratio",
+      title: "Ratio",
       type: "string",
       options: {
         list: [
-          { title: "Pleine largeur", value: "fullWidth" },
-          { title: "Pleine hauteur", value: "fullHeight" },
+          { title: "Horizontal", value: "horizontal" },
+          { title: "Vertical", value: "vertical" },
           { title: "Carré", value: "square" },
         ],
       },

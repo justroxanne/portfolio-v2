@@ -18,6 +18,11 @@ export default defineType({
       type: "string",
     }),
     defineField({
+      name: "website",
+      title: "Site web",
+      type: "url",
+    }),
+    defineField({
       name: "date",
       title: "Date",
       type: "string",

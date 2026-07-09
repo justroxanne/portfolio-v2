@@ -1,6 +1,6 @@
 export const plugins = {
   "@csstools/postcss-global-data": {
-    files: ["./app/media-queries.css"],
+    files: ["./app/styles/media-queries.css"],
   },
   "postcss-preset-env": {
     stage: 0,

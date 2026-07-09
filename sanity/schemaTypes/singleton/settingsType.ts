@@ -24,5 +24,15 @@ export default defineType({
       type: "array",
       of: [{ type: "link" }],
     }),
+    defineField({
+      name: "contactTitle",
+      title: "Titre section Contact",
+      type: "string",
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo",
+    }),
   ],
 });

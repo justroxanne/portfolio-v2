@@ -1,14 +1,14 @@
 "use client";
 
 import gsap from "gsap";
-import { DrawingType } from "@/sanity/types";
+import { DrawingType } from "@/sanity/lib/types";
 import { useEffect, useRef } from "react";
-import { horizontalLoop } from "@/app/utils/horizontalLoop";
+import { horizontalLoop } from "@/lib/horizontalLoop";
 import { useCursor } from "@/components/providers/CursorProvider";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SanityImage from "@/components/ui/SanityImage";
-import styles from "./Artwork.module.css";
+import { SanityImage } from "@/components/ui/SanityImage";
 import Markdown from "markdown-to-jsx";
+import styles from "./Artwork.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,7 +22,7 @@ export default function Artwork({
   const containerRef = useRef<HTMLDivElement>(null);
   const imagesRefs = useRef<HTMLDivElement[]>([]);
   const pinnedSection = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const maskRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   const { setCursorData } = useCursor();
@@ -40,11 +40,11 @@ export default function Artwork({
   }, []);
 
   useEffect(() => {
-    if (!overlayRef || !pinnedSection || !titleRef) return;
+    if (!maskRef || !pinnedSection || !titleRef) return;
 
     const tl = gsap.timeline();
 
-    const overlay = overlayRef.current;
+    const overlay = maskRef.current;
     const container = pinnedSection.current;
     const title = titleRef.current;
 
@@ -61,13 +61,13 @@ export default function Artwork({
           end: "top top",
           scrub: true,
         },
-      }
+      },
     );
 
     tl.to(overlay, {
       maskPosition: "100% 0",
       WebkitMaskPosition: "100% 0",
-      ease: "steps(24)",
+      ease: "steps(21)",
       scrollTrigger: {
         trigger: container,
         start: "top top",
@@ -80,10 +80,12 @@ export default function Artwork({
   }, []);
 
   return (
-    <div className={styles.root} id="gallery">
+    <div className={styles.root} id="artwork">
       {title && (
         <div className={styles.title} ref={pinnedSection}>
-          <div className={styles["animated-overlay"]} ref={overlayRef}></div>
+          <div className={styles["mask-container"]}>
+            <div className={styles["animated-mask"]} ref={maskRef}></div>
+          </div>
           <h2 ref={titleRef}>
             <Markdown>{title}</Markdown>
           </h2>
@@ -94,6 +96,12 @@ export default function Artwork({
           <div
             className={styles.carousel}
             ref={containerRef}
+            onPointerDown={() => {
+              containerRef?.current?.setAttribute("data-grabbing", "true");
+            }}
+            onPointerUp={() => {
+              containerRef?.current?.removeAttribute("data-grabbing");
+            }}
             onMouseOver={() =>
               setCursorData({
                 data: "text",
@@ -110,13 +118,18 @@ export default function Artwork({
             {gallery.map((drawing, index) => (
               <div
                 className={styles["image-container"]}
-                data-format={drawing.rendering}
+                data-format={drawing.ratio}
                 key={drawing._id}
                 ref={(el: HTMLDivElement) => {
                   if (el) imagesRefs.current[index] = el;
                 }}
               >
-                <SanityImage image={drawing.image} name={drawing.title} />
+                <SanityImage
+                  image={drawing.image}
+                  alt={drawing.description ?? drawing.title!}
+                  sizes={"(max-width: 768px) 100vw, 33vw"}
+                  loading={index > 3 ? "eager" : "lazy"}
+                />
               </div>
             ))}
           </div>

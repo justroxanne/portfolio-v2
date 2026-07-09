@@ -1,35 +1,56 @@
 import { defineQuery } from "next-sanity";
 
-export const HOMEPAGE_QUERY = defineQuery(
-  `*[_type == "home"][0]{
+export const HOMEPAGE_QUERY = defineQuery(`
+  *[_type == "home"][0]{
     _id,
     title,
     intro,
+    projects {
+      projectsList[] -> {
+        ...,
+        title,
+        stack,
+        description,
+        image {
+          asset -> {url}
+        },
+        link
+      }
+    },
     galleryTitle,
-    gallery[]-> {
-      ...,
-      image {
-      ...,
-      asset->
-      },
+    gallery {
+      drawingList[] -> {
+        ...,
+        title,
+        image,
+        description,
+        ratio
+      }
     },
     portrait,
     bio,
     parkour,
     aboutLink,
-    contactTitle
-  }`
-);
+    contactTitle,
+  }`);
 
-export const PROJECTS_QUERY = defineQuery(
-  `*[_type == "project"] | order(_createdAt asc){
-    _id,
-    title,
-    description,
-    stack,
-    image {
-      asset -> {url}
-    },
-    link
-  }`
-);
+export const SETTINGS_QUERY = defineQuery(`
+    *[_type == "settings"][0]{
+      "footer": {
+        "email": email,
+        "socials": socials[] {
+          ...,
+          label,
+          url
+        },
+        "contactTitle": contactTitle
+      },
+      navigation[] {
+        ...,
+        label,
+        url
+      },
+      seo {
+        ...,
+      }
+  }`);

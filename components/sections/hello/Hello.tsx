@@ -9,7 +9,7 @@ export default function Hello({
   intro?: string;
 }) {
   return (
-    <div className={styles.root}>
+    <div className={styles.root} id="hello">
       {intro && (
         <Markdown
           options={{

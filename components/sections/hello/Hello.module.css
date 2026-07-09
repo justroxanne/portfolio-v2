@@ -1,17 +1,22 @@
 .root {
   padding: clamp(1rem, 0.455rem + 2.73vw, 2.5rem);
   width: 100%;
-  height: 100svh;
-  display: flex;
-  flex-direction: column;
+  height: calc(100svh - var(--header-height));
+  display: grid;
+  grid-template-areas:
+    ". . eyebrow"
+    "title title title";
   justify-content: space-between;
 
   @supports not (height: 100svh) {
-   height: -webkit-fill-available;
+    height: -webkit-fill-available;
   }
 
   & h1 {
+    grid-area: title;
+    align-self: flex-end;
     font-size: clamp(3.5rem, 0.545rem + 12.61vw, 10rem);
+    max-width: 10ch;
 
     & :is(em, i) {
       white-space: nowrap;
@@ -19,9 +24,9 @@
   }
 
   & p {
-    align-self: flex-end;
+    grid-area: eyebrow;
+    align-self: flex-start;
     font-size: 2rem;
-    max-width: 15ch;
-    margin-top: clamp(1.5rem, 0.227rem + 6.36vw, 5rem);
+    max-width: 20rem;
   }
 }

@@ -17,7 +17,7 @@ type LoopConfig = {
 export const horizontalLoop = (
   container: HTMLDivElement,
   items: HTMLDivElement[],
-  config: LoopConfig = {}
+  config: LoopConfig = {},
 ) => {
   items = gsap.utils.toArray(items);
   const tl = gsap.timeline({
@@ -28,6 +28,19 @@ export const horizontalLoop = (
       tl.totalTime(tl.rawTime() + tl.duration() * 100);
     },
   });
+
+  // container.addEventListener("mouseenter", () =>
+  //   gsap.to(tl, {
+  //     timeScale: 0,
+  //     overwrite: true,
+  //   }),
+  // );
+  // container.addEventListener("mouseleave", () =>
+  //   gsap.to(tl, {
+  //     timeScale: 1,
+  //     overwrite: true,
+  //   }),
+  // );
 
   const length = items.length;
   const startX = items[0].offsetLeft;
@@ -47,7 +60,7 @@ export const horizontalLoop = (
       widths[i] = parseFloat(gsap.getProperty(item, "width", "px") as string);
       xPercents[i] =
         snap(
-          parseFloat(gsap.getProperty(item, "x", "px") as string) / widths[i]
+          parseFloat(gsap.getProperty(item, "x", "px") as string) / widths[i],
         ) *
           100 +
         parseFloat(gsap.getProperty(item, "xPercent") as string);
@@ -85,13 +98,13 @@ export const horizontalLoop = (
         xPercent: snap(((curX - distanceToLoop) / widths[i]) * 100),
         duration: distanceToLoop / pixelsPerSecond,
       },
-      0
+      0,
     )
       .fromTo(
         item,
         {
           xPercent: snap(
-            ((curX - distanceToLoop + totalWidth) / widths[i]) * 100
+            ((curX - distanceToLoop + totalWidth) / widths[i]) * 100,
           ),
         },
         {
@@ -100,7 +113,7 @@ export const horizontalLoop = (
             (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond,
           immediateRender: false,
         },
-        distanceToLoop / pixelsPerSecond
+        distanceToLoop / pixelsPerSecond,
       )
       .add("label" + i, distanceToStart / pixelsPerSecond);
 
@@ -112,7 +125,7 @@ export const horizontalLoop = (
     vars: {
       modifiers?: { time: (time: number) => number };
       overwrite?: boolean;
-    } = {}
+    } = {},
   ) {
     if (Math.abs(index - curIndex) > length / 2) {
       index += index > curIndex ? -length : length;
@@ -153,11 +166,13 @@ export const horizontalLoop = (
 
     let ratio = 1 / length;
     let startProgress = 0;
+    let hasHandedOff = false;
 
     const draggable = Draggable.create(proxy, {
       trigger: container,
       type: "x",
       onPress() {
+        hasHandedOff = false;
         tl.pause();
         startProgress = tl.progress();
         tl.progress(0);
@@ -168,24 +183,46 @@ export const horizontalLoop = (
       },
       onDrag: () => {
         tl.progress(
-          wrap(startProgress + (draggable.startX - draggable.x) * ratio)
+          wrap(startProgress + (draggable.startX - draggable.x) * ratio),
         );
       },
       onThrowUpdate: () => {
         tl.progress(
-          wrap(startProgress + (draggable.startX - draggable.x) * ratio)
+          wrap(startProgress + (draggable.startX - draggable.x) * ratio),
         );
+
+        if (hasHandedOff || config.paused) return;
+
+        const v = InertiaPlugin.getVelocity(proxy, "x");
+        const naturalVelocity = -pixelsPerSecond;
+
+        const sameDirection = Math.sign(v) === Math.sign(naturalVelocity);
+        const closeEnought =
+          Math.abs(v - naturalVelocity) < pixelsPerSecond * 0.15;
+
+        if (sameDirection && closeEnought) {
+          hasHandedOff = true;
+          draggable.tween.kill();
+          gsap.set(proxy, { x: 0 });
+          tl.updateIndex();
+          tl.play();
+        }
       },
       inertia: true,
       edgeResistance: 0.75,
       snap: {
-        x: (endValue) => Math.round(endValue / 100) * 100,
+        x: (endValue) => {
+          const slideWidth = widths[0];
+          return Math.round(endValue / slideWidth) * slideWidth;
+        },
       },
       onRelease: () => tl.updateIndex(),
       onThrowComplete: () => {
-        gsap.set(proxy, { x: 0 });
-        tl.updateIndex();
-        if (!config.paused) tl.play();
+        if (!hasHandedOff && !config.paused) {
+          gsap.set(proxy, { x: 0 });
+          tl.updateIndex();
+          tl.play();
+        }
       },
     })[0];
   }

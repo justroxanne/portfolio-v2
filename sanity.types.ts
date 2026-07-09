@@ -12,7 +12,178 @@
  * ---------------------------------------------------------------------------------
  */
 
+export declare const internalGroqTypeReferenceTo: unique symbol;
+
 // Source: schema.json
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type Seo = {
+  _type: "seo";
+  title?: string;
+  description?: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
+export type Link = {
+  _type: "link";
+  label?: string;
+  url?: string;
+};
+
+export type Step = {
+  _type: "step";
+  title?: string;
+  company?: string;
+  website?: string;
+  date?: string;
+};
+
+export type Drawing = {
+  _id: string;
+  _type: "drawing";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  description?: string;
+  medium?: string;
+  ratio?: "horizontal" | "vertical" | "square";
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  stack?: string;
+  description?: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  link?: string;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type Settings = {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  email?: string;
+  navigation?: Array<
+    {
+      _key: string;
+    } & Link
+  >;
+  socials?: Array<
+    {
+      _key: string;
+    } & Link
+  >;
+  contactTitle?: string;
+  seo?: Seo;
+};
+
+export type ProjectReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "project";
+};
+
+export type DrawingReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "drawing";
+};
+
+export type Home = {
+  _id: string;
+  _type: "home";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  intro?: string;
+  projects?: {
+    projectsList?: Array<
+      {
+        _key: string;
+      } & ProjectReference
+    >;
+  };
+  galleryTitle?: string;
+  gallery?: {
+    drawingList?: Array<
+      {
+        _key: string;
+      } & DrawingReference
+    >;
+  };
+  portrait?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  bio?: string;
+  parkour?: Array<
+    {
+      _key: string;
+    } & Step
+  >;
+  aboutLink?: Link;
+};
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -39,6 +210,18 @@ export type SanityImageDimensions = {
   aspectRatio?: number;
 };
 
+export type SanityImageMetadata = {
+  _type: "sanity.imageMetadata";
+  location?: Geopoint;
+  dimensions?: SanityImageDimensions;
+  palette?: SanityImagePalette;
+  lqip?: string;
+  blurHash?: string;
+  thumbHash?: string;
+  hasAlpha?: boolean;
+  isOpaque?: boolean;
+};
+
 export type SanityFileAsset = {
   _id: string;
   _type: "sanity.fileAsset";
@@ -61,142 +244,11 @@ export type SanityFileAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
-export type Step = {
-  _type: "step";
-  title?: string;
-  company?: string;
-  date?: string;
-};
-
-export type Drawing = {
-  _id: string;
-  _type: "drawing";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  medium?: string;
-  rendering?: "fullWidth" | "fullHeight" | "square";
-};
-
-export type Project = {
-  _id: string;
-  _type: "project";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  stack?: string;
-  description?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  link?: string;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type Settings = {
-  _id: string;
-  _type: "settings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  email?: string;
-  navigation?: Array<{
-    _key: string;
-  } & Link>;
-  socials?: Array<{
-    _key: string;
-  } & Link>;
-};
-
-export type Home = {
-  _id: string;
-  _type: "home";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  intro?: string;
-  galleryTitle?: string;
-  gallery?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "drawing";
-  }>;
-  portrait?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  bio?: string;
-  parkour?: Array<{
-    _key: string;
-  } & Step>;
-  aboutLink?: Link;
-  contactTitle?: string;
-};
-
-export type Link = {
-  _type: "link";
-  label?: string;
+export type SanityAssetSourceData = {
+  _type: "sanity.assetSourceData";
+  name?: string;
+  id?: string;
   url?: string;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
 };
 
 export type SanityImageAsset = {
@@ -222,109 +274,139 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
-  name?: string;
-  id?: string;
-  url?: string;
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
 };
 
-export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
-};
+export type AllSanitySchemaTypes =
+  | SanityImageAssetReference
+  | Seo
+  | Link
+  | Step
+  | Drawing
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Project
+  | Slug
+  | Settings
+  | ProjectReference
+  | DrawingReference
+  | Home
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Step | Drawing | Project | Slug | Settings | Home | Link | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
-export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./sanity/lib/queries.ts
+// Source: sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
-// Query: *[_type == "home"][0]{    _id,    title,    intro,    galleryTitle,    gallery[]-> {      ...,      image {      ...,      asset->      },    },    portrait,    bio,    parkour,    aboutLink,    contactTitle  }
-export type HOMEPAGE_QUERYResult = {
+// Query: *[_type == "home"][0]{    _id,    title,    intro,    projects {      projectsList[] -> {        ...,        title,        stack,        description,        image {          asset -> {url}        },        link      }    },    galleryTitle,    gallery {      drawingList[] -> {        ...,        title,        image,        description,        ratio      }    },    portrait,    bio,    parkour,    aboutLink,    contactTitle,  }
+export type HOMEPAGE_QUERY_RESULT = {
   _id: string;
   title: string | null;
   intro: string | null;
-  galleryTitle: string | null;
-  gallery: Array<{
-    _id: string;
-    _type: "drawing";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    title?: string;
-    image: {
-      asset: {
-        _id: string;
-        _type: "sanity.imageAsset";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        originalFilename?: string;
-        label?: string;
-        title?: string;
-        description?: string;
-        altText?: string;
-        sha1hash?: string;
-        extension?: string;
-        mimeType?: string;
-        size?: number;
-        assetId?: string;
-        uploadId?: string;
-        path?: string;
-        url?: string;
-        metadata?: SanityImageMetadata;
-        source?: SanityAssetSourceData;
+  projects: {
+    projectsList: Array<{
+      _id: string;
+      _type: "project";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      title: string | null;
+      slug?: Slug;
+      stack: string | null;
+      description: string | null;
+      image: {
+        asset: {
+          url: string | null;
+        } | null;
       } | null;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    } | null;
-    medium?: string;
-    rendering?: "fullHeight" | "fullWidth" | "square";
-  }> | null;
+      link: string | null;
+    }> | null;
+  } | null;
+  galleryTitle: string | null;
+  gallery: {
+    drawingList: Array<{
+      _id: string;
+      _type: "drawing";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      title: string | null;
+      image: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      } | null;
+      description: string | null;
+      medium?: string;
+      ratio: "horizontal" | "square" | "vertical" | null;
+    }> | null;
+  } | null;
   portrait: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   } | null;
   bio: string | null;
-  parkour: Array<{
-    _key: string;
-  } & Step> | null;
+  parkour: Array<
+    {
+      _key: string;
+    } & Step
+  > | null;
   aboutLink: Link | null;
-  contactTitle: string | null;
+  contactTitle: null;
 } | null;
-// Variable: PROJECTS_QUERY
-// Query: *[_type == "project"] | order(_createdAt asc){    _id,    title,    description,    stack,    image {      asset -> {url}    },    link  }
-export type PROJECTS_QUERYResult = Array<{
-  _id: string;
-  title: string | null;
-  description: string | null;
-  stack: string | null;
-  image: {
-    asset: {
+
+// Source: sanity/lib/queries.ts
+// Variable: SETTINGS_QUERY
+// Query: *[_type == "settings"][0]{      "footer": {        "email": email,        "socials": socials[] {          ...,          label,          url        },        "contactTitle": contactTitle      },      navigation[] {        ...,        label,        url      },      seo {        ...,      }  }
+export type SETTINGS_QUERY_RESULT = {
+  footer: {
+    email: string | null;
+    socials: Array<{
+      _key: string;
+      _type: "link";
+      label: string | null;
       url: string | null;
-    } | null;
+    }> | null;
+    contactTitle: string | null;
+  };
+  navigation: Array<{
+    _key: string;
+    _type: "link";
+    label: string | null;
+    url: string | null;
+  }> | null;
+  seo: {
+    _type: "seo";
+    title?: string;
+    description?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
   } | null;
-  link: string | null;
-}>;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"home\"][0]{\n    _id,\n    title,\n    intro,\n    galleryTitle,\n    gallery[]-> {\n      ...,\n      image {\n      ...,\n      asset->\n      },\n    },\n    portrait,\n    bio,\n    parkour,\n    aboutLink,\n    contactTitle\n  }": HOMEPAGE_QUERYResult;
-    "*[_type == \"project\"] | order(_createdAt asc){\n    _id,\n    title,\n    description,\n    stack,\n    image {\n      asset -> {url}\n    },\n    link\n  }": PROJECTS_QUERYResult;
+    '\n  *[_type == "home"][0]{\n    _id,\n    title,\n    intro,\n    projects {\n      projectsList[] -> {\n        ...,\n        title,\n        stack,\n        description,\n        image {\n          asset -> {url}\n        },\n        link\n      }\n    },\n    galleryTitle,\n    gallery {\n      drawingList[] -> {\n        ...,\n        title,\n        image,\n        description,\n        ratio\n      }\n    },\n    portrait,\n    bio,\n    parkour,\n    aboutLink,\n    contactTitle,\n  }': HOMEPAGE_QUERY_RESULT;
+    '\n    *[_type == "settings"][0]{\n      "footer": {\n        "email": email,\n        "socials": socials[] {\n          ...,\n          label,\n          url\n        },\n        "contactTitle": contactTitle\n      },\n      navigation[] {\n        ...,\n        label,\n        url\n      },\n      seo {\n        ...,\n      }\n  }': SETTINGS_QUERY_RESULT;
   }
 }

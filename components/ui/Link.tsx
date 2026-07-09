@@ -1,28 +1,37 @@
-import Nextlink from "next/link";
+import NextLink from "next/link";
 import React from "react";
+import { cn } from "@/lib/utils";
 import styles from "./Link.module.css";
 
 export default function Link({
   children,
-  to,
+  href,
   variant,
   className,
-  target = "_self",
-}: {
-  children: React.ReactNode;
-  to: string;
-  variant?: string;
+  onClick,
+  ...props
+}: React.ComponentPropsWithRef<typeof NextLink> & {
+  href: string;
+  variant?: "animated-underline" | "underline-reverse";
   className?: string;
-  target?: string;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }) {
+  const isExternal = href.toString().startsWith("http");
+  const isNativeAnchor = href.toString().match(/^(https?:|mailto:|tel:)/);
+
+  const Component = isNativeAnchor ? "a" : NextLink;
+
   return (
-    <Nextlink
-      href={to}
-      className={`${styles.root} ${className ? className : ""}`}
+    <Component
+      href={href}
+      className={cn(styles.root, className)}
       data-variant={variant}
-      target={target}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+      onClick={onClick}
+      {...props}
     >
       {children}
-    </Nextlink>
+    </Component>
   );
 }

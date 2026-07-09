@@ -1,13 +1,11 @@
 .menu {
-  padding-inline: clamp(3.5rem, 2.955rem + 2.73vw, 5rem);
+  padding-inline: var(--gutter);
   top: 0;
   position: sticky;
-  z-index: 10;
-  height: clamp(3.75rem, 3.295rem + 2.27vw, 5rem);
+  z-index: 20;
+  height: var(--header-height);
   display: flex;
   align-items: center;
-  text-transform: uppercase;
-  font-weight: 600;
   color: var(--light-color);
   mix-blend-mode: difference;
 
@@ -30,13 +28,11 @@
 
 .mobile-navigation {
   list-style: none;
-  position: absolute;
-  top: 3.75rem;
   display: flex;
   flex-direction: column;
+  align-items: end;
   gap: 1rem;
   text-transform: uppercase;
-  font-weight: 600;
 
   &:where([data-open="false"]) {
     & li {
@@ -45,10 +41,15 @@
   }
 }
 
+.nav-link {
+  font-size: 2rem;
+}
+
 .burger {
   width: 2rem;
   display: grid;
   row-gap: 0.4rem;
+  z-index: 100;
 
   & span {
     display: block;
@@ -75,4 +76,22 @@
   justify-content: space-between;
   width: 100%;
   margin-inline: 1rem;
+}
+
+.menu-drawer {
+  padding: var(--padding-top-large) var(--gutter) var(--padding-bottom-small);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.socials {
+  display: flex;
+  flex-direction: column;
+
+  & a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25rem;
+  }
 }

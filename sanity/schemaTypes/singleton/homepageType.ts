@@ -18,6 +18,23 @@ export default defineType({
       type: "string",
     }),
     defineField({
+      name: "projects",
+      title: "Projects",
+      type: "object",
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      fields: [
+        defineField({
+          name: "projectsList",
+          title: "Liste des projets",
+          type: "array",
+          of: [{ type: "reference", to: [{ type: "project" }] }],
+        }),
+      ],
+    }),
+    defineField({
       name: "galleryTitle",
       title: "Titre de la galerie",
       type: "string",
@@ -25,8 +42,19 @@ export default defineType({
     defineField({
       name: "gallery",
       title: "Galerie",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "drawing" }] }],
+      type: "object",
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      fields: [
+        defineField({
+          name: "drawingList",
+          title: "Liste des oeuvres",
+          type: "array",
+          of: [{ type: "reference", to: [{ type: "drawing" }] }],
+        }),
+      ],
     }),
     defineField({
       name: "portrait",
@@ -48,11 +76,6 @@ export default defineType({
       name: "aboutLink",
       title: "Lien section About",
       type: "link",
-    }),
-    defineField({
-      name: "contactTitle",
-      title: "Titre section Contact",
-      type: "string",
     }),
   ],
 });

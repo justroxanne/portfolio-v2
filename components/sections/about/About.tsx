@@ -1,7 +1,12 @@
-import { Link, Step } from "@/sanity.types";
-import { SanityAsset } from "@sanity/image-url/lib/types/types";
+"use client";
+
+import { Link as LinkType, Step } from "@/sanity.types";
+import { Image as ImageType } from "@/sanity/lib/types";
+import { SanityImage } from "@/components/ui/SanityImage";
 import styles from "./About.module.css";
-import SanityImage from "@/components/ui/SanityImage";
+import ArrowRight from "@/components/icons/ArrowRight";
+import { useCursor } from "@/components/providers/CursorProvider";
+import Link from "@/components/ui/Link";
 
 export default function About({
   bio,
@@ -13,9 +18,11 @@ export default function About({
   parkour?: ({
     _key: string;
   } & Step)[];
-  link?: Link;
-  media?: SanityAsset;
+  link?: LinkType;
+  media?: ImageType;
 }) {
+  const { setCursorData } = useCursor();
+
   return (
     <div className={styles.root} id="about">
       {bio && (
@@ -23,21 +30,54 @@ export default function About({
           <em>{bio}</em>
         </div>
       )}
+      <div className={styles.portrait}>
+        <SanityImage
+          image={media}
+          alt={media?.alt ?? ""}
+          loading="lazy"
+          sizes={"(max-width: 768px) 60vw, 33vw"}
+        />
+      </div>
       {parkour && (
-        <div className={styles.parkour}>
+        <ul className={styles.parkour}>
           {parkour.map((step) => (
-            <div key={step._key}>
+            <li key={step._key}>
               <div>
                 {step.date} • {step.title}
               </div>
-              <div>{step.company}</div>
-            </div>
+              {step.company &&
+                (step.website ? (
+                  <Link href={step.website} variant="underline-reverse">
+                    {step.company}
+                  </Link>
+                ) : (
+                  <i>{step.company}</i>
+                ))}
+            </li>
           ))}
-        </div>
+        </ul>
       )}
-      <div className={styles.portrait}>
-        <SanityImage image={media} />
-      </div>
+      {link && (
+        <Link
+          href={link.url!}
+          className={styles.link}
+          onMouseOver={() =>
+            setCursorData({
+              data: "text",
+              text: "Click me !",
+            })
+          }
+          onMouseLeave={() =>
+            setCursorData({
+              data: "",
+              text: "",
+            })
+          }
+        >
+          <span>{link.label}</span>
+          <ArrowRight className={styles.arrow} />
+        </Link>
+      )}
     </div>
   );
 }

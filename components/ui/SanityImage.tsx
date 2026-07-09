@@ -1,25 +1,32 @@
-import { ImageType } from "@/sanity/types";
-import { urlFor } from "@/sanity/lib/image";
+import { forwardRef } from "react";
+import { Image as ImageType } from "@/sanity/lib/types";
+import { urlFor } from "@/lib/imageUrl";
 import { getImageDimensions, SanityImageSource } from "@sanity/asset-utils";
 import Image from "next/image";
 import styles from "./SanityImage.module.css";
 
-type Props = {
-  image?: ImageType | null;
-  name?: string | null;
-};
+export const SanityImage = forwardRef<
+  React.ComponentRef<typeof Image>,
+  Omit<React.ComponentPropsWithoutRef<typeof Image>, "src"> & {
+    image: ImageType | null | undefined;
+  }
+>(function sanityImage({ image, alt, ...props }, ref) {
+  if (!image || !(typeof image === "object" && "asset" in image)) {
+    return null;
+  }
 
-export default function SanityImage({ image, name }: Props) {
-  const imageUrl = image ? urlFor(image).auto("format").url() : null;
+  const src = urlFor(image);
   const { width, height } = getImageDimensions(image as SanityImageSource);
 
   return (
     <Image
       className={styles.root}
-      src={imageUrl!}
+      src={src}
+      alt={alt}
       width={width}
       height={height}
-      alt={name || ""}
+      ref={ref}
+      {...props}
     />
   );
-}
+});

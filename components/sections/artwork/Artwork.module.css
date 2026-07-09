@@ -3,6 +3,7 @@
   overflow: hidden;
   width: 100%;
   min-height: 100svh;
+  margin-bottom: -1px;
 
   @supports not (min-height: 100svh) {
     min-height: -webkit-fill-available;
@@ -24,6 +25,8 @@
     z-index: 2;
     color: var(--dark-color);
     font-size: clamp(3.5rem, 0.545rem + 12.61vw, 10rem);
+    max-width: 15ch;
+
     & :is(em, i) {
       white-space: nowrap;
     }
@@ -43,7 +46,12 @@
 .carousel {
   height: 100%;
   display: flex;
-  cursor: none !important;
+
+  cursor: var(--cursor-grab) !important;
+
+  &[data-grabbing="true"] {
+    cursor: var(--cursor-grabbing) !important;
+  }
 }
 
 .image-container {
@@ -51,30 +59,46 @@
   display: flex;
 
   & img {
-    margin-right: 5rem;
+    margin-right: 2.5rem;
+
+    @media (--screen-lg) {
+      margin-right: 5rem;
+    }
   }
 
-  &[data-format="fullWidth"] {
-    margin-top: 5rem;
-    height: 60%;
-  }
-
-  &[data-format="square"] {
+  &[data-format="horizontal"] {
     margin-top: 3.5rem;
     height: 75%;
   }
+
+  &[data-format="square"] {
+    margin-top: 5rem;
+    height: 60%;
+  }
 }
 
-.animated-overlay {
-  height: 100%;
+.mask-container {
   position: absolute;
   inset: 0;
-  -webkit-mask: url("/ink.png");
-  mask: url("/ink.png");
-  -webkit-mask-size: 2500% 100%;
-  mask-size: 2500% 100%;
+  aspect-ratio: 640/360;
+  height: auto;
+  min-height: 100%;
+  width: auto;
+  min-width: 100%;
+}
+
+.animated-mask {
+  height: 100%;
+  width: 100%;
+
+  mask: url("/watercolor.avif");
+  -webkit-mask: url("/watercolor.avif");
+  mask-size: 2200% 100%;
+  -webkit-mask-size: 2200% 100%;
   mask-position: 0 0;
   -webkit-mask-position: 0 0;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
   pointer-events: none;
-  background: black;
+  background: var(--dark-color);
 }
