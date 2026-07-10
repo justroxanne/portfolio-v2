@@ -31,6 +31,8 @@
   margin-top: 1rem;
   margin-left: 2rem;
   list-style-type: disc;
+  z-index: 2;
+  mix-blend-mode: difference;
 
   & a {
     font-style: italic;
@@ -44,7 +46,7 @@
 
   & img {
     height: 100%;
-    width: 100%;
+    width: auto;
     object-fit: cover;
   }
 

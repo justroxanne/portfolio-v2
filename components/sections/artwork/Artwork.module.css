@@ -36,7 +36,7 @@
 .artwork {
   overflow: visible;
   height: 100svh;
-  padding-block: 8rem;
+  padding-block: var(--padding-top-large) var(--padding-bottom-large);
 
   @supports not (min-height: 100svh) {
     min-height: -webkit-fill-available;
@@ -46,35 +46,35 @@
 .carousel {
   height: 100%;
   display: flex;
+  gap: 2.5rem;
+  align-items: center;
 
   cursor: var(--cursor-grab) !important;
 
   &[data-grabbing="true"] {
     cursor: var(--cursor-grabbing) !important;
   }
+
+  @media (--screen-lg) {
+    gap: 5rem;
+  }
 }
 
 .image-container {
   flex: 0 0 auto;
-  display: flex;
   min-height: 0;
+  height: 100%;
+  width: auto;
 
   & img {
-    margin-right: 2.5rem;
-
-    @media (--screen-lg) {
-      margin-right: 5rem;
-    }
+    width: auto;
   }
 
   &[data-format="horizontal"] {
-    margin-top: 3.5rem;
     height: 75%;
   }
-
   &[data-format="square"] {
-    margin-top: 5rem;
-    height: 60%;
+    height: 50%;
   }
 }
 

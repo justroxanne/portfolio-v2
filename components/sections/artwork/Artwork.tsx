@@ -9,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SanityImage } from "@/components/ui/SanityImage";
 import Markdown from "markdown-to-jsx";
 import styles from "./Artwork.module.css";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,6 +27,9 @@ export default function Artwork({
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   const { setCursorData } = useCursor();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  const paddingRight = isDesktop ? "80" : "40";
 
   useEffect(() => {
     if (!imagesRefs.current || !containerRef.current) return;
@@ -34,7 +38,7 @@ export default function Artwork({
       draggable: true,
       speed: 0.55,
       snap: 1,
-      paddingRight: "0",
+      paddingRight: paddingRight,
       repeat: true,
     });
   }, []);
@@ -127,7 +131,7 @@ export default function Artwork({
                 <SanityImage
                   image={drawing.image}
                   alt={drawing.description ?? drawing.title!}
-                  sizes={"(max-width: 768px) 100vw, 33vw"}
+                  sizes={"(max-width: 768px) 100vw, 50vw"}
                   loading="eager"
                 />
               </div>
