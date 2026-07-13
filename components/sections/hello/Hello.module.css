@@ -1,5 +1,5 @@
 .root {
-  padding: clamp(1rem, 0.455rem + 2.73vw, 2.5rem);
+  padding: var(--padding-top-small) var(--gutter) var(--padding-bottom-medium);
   width: 100%;
   height: calc(100svh - var(--header-height));
   display: grid;

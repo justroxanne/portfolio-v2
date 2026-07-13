@@ -41,12 +41,6 @@
   align-items: end;
   gap: 1rem;
   text-transform: uppercase;
-
-  &:where([data-open="false"]) {
-    & li {
-      pointer-events: none;
-    }
-  }
 }
 
 .nav-link {

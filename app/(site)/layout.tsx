@@ -8,6 +8,7 @@ import { SETTINGS_QUERY } from "@/sanity/lib/queries";
 import SmoothScroller from "@/components/global/SmoothScroller";
 import "@/app/styles/globals.css";
 import { urlFor } from "@/lib/imageUrl";
+import PageLoader from "@/components/global/PageLoader";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -48,12 +49,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${spaceGrotesk.variable}`}>
         <CursorProvider>
+          <PageLoader />
+          <Header navigation={navigation!} socials={footer?.socials ?? null} />
           <Cursor />
           <SmoothScroller footer={footer}>
-            <Header
-              navigation={navigation!}
-              socials={footer?.socials ?? null}
-            />
             <main id="main">{children}</main>
           </SmoothScroller>
         </CursorProvider>

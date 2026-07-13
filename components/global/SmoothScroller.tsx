@@ -32,8 +32,10 @@ export default function SmoothScroller({
       smooth: 3,
       effects: true,
       smoothTouch: 0.1,
-      normalizeScroll: false,
+      normalizeScroll: true,
     });
+
+    gsap.set("#smooth-content", { visibility: "visible" });
 
     if (!footerRef.current) return;
 
