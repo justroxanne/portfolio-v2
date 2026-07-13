@@ -132,7 +132,7 @@ export default function Artwork({
                   image={drawing.image}
                   alt={drawing.description ?? drawing.title!}
                   sizes={"(max-width: 768px) 100vw, 50vw"}
-                  loading="eager"
+                  loading="lazy"
                 />
               </div>
             ))}
