@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "placehold.co" },
     ],
   },
+  experimental: {
+    inlineCss: true,
+  },
 };
 
 export default nextConfig;
