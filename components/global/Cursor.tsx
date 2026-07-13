@@ -5,13 +5,14 @@ import { useCursor } from "../providers/CursorProvider";
 import styles from "./Cursor.module.css";
 
 export default function Cursor() {
-  const { cursorData, cursorPosition, backgroundImageSrc } = useCursor();
-  const isDesktop = useMediaQuery("(min-width: 768px");
+  const { cursorData, cursorRef, backgroundImageSrc } = useCursor();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  if (!isDesktop) return;
+  if (!isDesktop) return null;
 
   return (
     <div
+      ref={cursorRef}
       aria-hidden="true"
       className={styles.cursor}
       data-background={backgroundImageSrc !== ""}
@@ -21,7 +22,6 @@ export default function Cursor() {
         backgroundImage: backgroundImageSrc
           ? `url(${backgroundImageSrc})`
           : "none",
-        transform: `translate(calc(${cursorPosition.x}px - 100%), calc(${cursorPosition.y}px - 100%))`,
       }}
     >
       {cursorData.text && <span>{cursorData.text}</span>}

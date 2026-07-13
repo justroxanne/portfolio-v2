@@ -29,10 +29,10 @@ export default function Artwork({
   const { setCursorData } = useCursor();
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const paddingRight = isDesktop ? "80" : "40";
-
   useEffect(() => {
     if (!imagesRefs.current || !containerRef.current) return;
+
+    const paddingRight = isDesktop ? "80" : "40";
 
     horizontalLoop(containerRef.current, imagesRefs.current, {
       draggable: true,
@@ -41,7 +41,7 @@ export default function Artwork({
       paddingRight: paddingRight,
       repeat: true,
     });
-  }, []);
+  }, [isDesktop]);
 
   useEffect(() => {
     if (!maskRef || !pinnedSection || !titleRef) return;

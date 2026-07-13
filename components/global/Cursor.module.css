@@ -12,24 +12,27 @@
     text-transform: uppercase;
     color: var(--dark-color);
     position: fixed;
+    top: 0;
+    left: 0;
     border: 1px solid var(--cursor-color);
     background-color: var(--cursor-color);
     mix-blend-mode: difference;
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    z-index: 50;
     pointer-events: none;
-    top: 0;
-    left: 0;
+    z-index: 50;
+
+    width: 17rem;
+    height: 13rem;
+    transform-origin: 70% 70%;
+    scale: 0.0294 0.0385;
+    border-radius: 50%;
+
     transition:
-      transform 0.5s ease-out,
-      width 0.75s ease-out,
-      height 0.75s ease-out,
-      border-radius 0.75s ease-out,
-      border-color 0.75s ease-out,
-      font-size 0.75s ease-out 0.15s;
-    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      translate 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      scale 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      border-radius 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      font-size 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -37,23 +40,24 @@
     &:where([data-background="true"]) {
       background-color: transparent;
       mix-blend-mode: normal;
-      width: 17rem;
-      height: 13rem;
+      scale: 1 1;
       border-radius: 0;
       border: 1px solid #e8e8e8;
     }
 
     &:where([data-text="true"]) {
       padding: 1rem;
-      width: 135px;
-      height: 135px;
+      scale: 0.496 0.649;
       color: var(--text-color);
       font-size: 1em;
+
+      & span {
+        scale: 2.016 1.541;
+      }
     }
 
     &:where([data-hover="true"]) {
-      width: 0;
-      height: 0;
+      scale: 0 0;
       border: none;
     }
   }

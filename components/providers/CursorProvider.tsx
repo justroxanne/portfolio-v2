@@ -5,6 +5,7 @@ import React, {
   SetStateAction,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -21,7 +22,7 @@ type CursorData = {
 type CursorContextType = {
   cursorData: { data: string; text: string };
   setCursorData: Dispatch<SetStateAction<CursorData>>;
-  cursorPosition: cursorPosition;
+  cursorRef: React.RefObject<HTMLDivElement | null>;
   backgroundImageSrc: string;
   setBackgroundImageSrc: Dispatch<SetStateAction<string>>;
 };
@@ -31,29 +32,35 @@ const CursorContext = createContext<CursorContextType | undefined>(undefined);
 export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
   const [cursorData, setCursorData] = useState({ data: "", text: "" });
   const [backgroundImageSrc, setBackgroundImageSrc] = useState("");
-  const [cursorPosition, setCursorPosition] = useState<cursorPosition>({
-    x: 0,
-    y: 0,
-  });
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let rafId: number;
+    const OFFSET_X = "0.5rem";
+    const OFFSET_Y = "0.5rem";
+
     const handleMouseMove = (event: MouseEvent) => {
-      const { clientX, clientY } = event;
-      setCursorPosition({ x: clientX, y: clientY });
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (cursorRef.current) {
+          cursorRef.current.style.translate = `calc(${event.clientX}px - 70% - ${OFFSET_X}) calc(${event.clientY}px - 70% - ${OFFSET_Y})`;
+        }
+      });
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(rafId);
     };
   }, []);
+
   return (
     <CursorContext.Provider
       value={{
         cursorData,
         setCursorData,
-        cursorPosition,
+        cursorRef,
         backgroundImageSrc,
         setBackgroundImageSrc,
       }}
