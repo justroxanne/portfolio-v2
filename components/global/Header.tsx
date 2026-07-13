@@ -119,72 +119,74 @@ export default function Header({
 
   return (
     <header className={styles.menu} data-open={isMenuOpen}>
-      {isDesktop ? (
-        <ul className={styles["desktop-navigation"]}>
-          {navigation?.map((navItem, index) => (
-            <li
-              key={index}
-              onMouseOver={() => setCursorData({ data: "hover", text: "" })}
-              onMouseLeave={() => setCursorData({ data: "", text: "" })}
-            >
-              <Link
-                href={navItem.url ?? ""}
-                variant="animated-underline"
-                onClick={(e) => handleNavClick(e, navItem.url ?? "")}
-              >
-                {`0${index + 1}/`}
-                {navItem.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <Drawer modal={false} open={isMenuOpen} onOpenChange={handleOpenChange}>
-          <DrawerTrigger className={styles.burger} title="Open menu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </DrawerTrigger>
-          <DrawerContent
-            onAnimationEnd={handleDrawerAnimationEnd}
-            className={styles["menu-drawer"]}
-            animationOrigin="left"
+      <ul className={styles["desktop-navigation"]}>
+        {navigation?.map((navItem, index) => (
+          <li
+            key={index}
+            onMouseOver={() => setCursorData({ data: "hover", text: "" })}
+            onMouseLeave={() => setCursorData({ data: "", text: "" })}
           >
-            <DrawerTitle asChild>
-              <VisuallyHidden>Menu</VisuallyHidden>
-            </DrawerTitle>
-            <DrawerDescription asChild>
-              <VisuallyHidden>Navigation</VisuallyHidden>
-            </DrawerDescription>
-            <ul
-              ref={setNavRef}
-              className={styles["mobile-navigation"]}
-              data-open={isMenuOpen}
+            <Link
+              href={navItem.url ?? ""}
+              variant="animated-underline"
+              onClick={(e) => handleNavClick(e, navItem.url ?? "")}
             >
-              {navigation?.map((navItem, index) => (
-                <li key={index}>
-                  <Link
-                    className={styles["nav-link"]}
-                    href={navItem.url ?? ""}
-                    onClick={(e) => handleNavClick(e, navItem.url ?? "")}
-                  >
-                    {navItem.label}
-                  </Link>
-                </li>
+              {`0${index + 1}/`}
+              {navItem.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <Drawer
+        modal={false}
+        open={isMenuOpen}
+        onOpenChange={handleOpenChange}
+        className={styles["mobile-navigation"]}
+      >
+        <DrawerTrigger className={styles.burger} title="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </DrawerTrigger>
+        <DrawerContent
+          onAnimationEnd={handleDrawerAnimationEnd}
+          className={styles["menu-drawer"]}
+          animationOrigin="left"
+        >
+          <DrawerTitle asChild>
+            <VisuallyHidden>Menu</VisuallyHidden>
+          </DrawerTitle>
+          <DrawerDescription asChild>
+            <VisuallyHidden>Navigation</VisuallyHidden>
+          </DrawerDescription>
+          <ul
+            ref={setNavRef}
+            className={styles["navigation"]}
+            data-open={isMenuOpen}
+          >
+            {navigation?.map((navItem, index) => (
+              <li key={index}>
+                <Link
+                  className={styles["nav-link"]}
+                  href={navItem.url ?? ""}
+                  onClick={(e) => handleNavClick(e, navItem.url ?? "")}
+                >
+                  {navItem.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          {socials && (
+            <div className={styles.socials} ref={setSocialsRef}>
+              {socials.map((item) => (
+                <Link key={item._key} href={item.url!}>
+                  {item.label}
+                </Link>
               ))}
-            </ul>
-            {socials && (
-              <div className={styles.socials} ref={setSocialsRef}>
-                {socials.map((item) => (
-                  <Link key={item._key} href={item.url!}>
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </DrawerContent>
-        </Drawer>
-      )}
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
     </header>
   );
 }

@@ -19,7 +19,7 @@ export default function SmoothScroller({
   footer: FooterType;
 }) {
   const wrapper = useRef<HTMLDivElement>(null);
-  const content = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
   const footerTween = useRef<gsap.core.Timeline | null>(null);
 
@@ -27,10 +27,12 @@ export default function SmoothScroller({
 
   useGSAP(() => {
     const smoother = ScrollSmoother.create({
+      wrapper: wrapper.current!,
+      content: contentRef.current!,
       smooth: 3,
       effects: true,
       smoothTouch: 0.1,
-      normalizeScroll: true,
+      normalizeScroll: false,
     });
 
     if (!footerRef.current) return;
@@ -54,14 +56,12 @@ export default function SmoothScroller({
       refreshPriority: -10,
     });
 
-    // Gestion du hash initial (ex: arrivée via /#work)
     if (window.location.hash) {
       const target = window.location.hash;
 
-      // On attend que tout soit bien monté/mesuré (images, layout, etc.)
       requestAnimationFrame(() => {
         ScrollTrigger.refresh();
-        smoother.scrollTo(target, false, "top top"); // false = pas d'animation, positionnement direct
+        smoother.scrollTo(target, false, "top top");
       });
     }
   }, []);
@@ -94,7 +94,7 @@ export default function SmoothScroller({
   }, []);
 
   useEffect(() => {
-    const content = document.getElementById("smooth-content");
+    const content = contentRef.current;
     if (!content) return;
 
     let timer: ReturnType<typeof setTimeout>;
@@ -112,7 +112,7 @@ export default function SmoothScroller({
 
   return (
     <div id="smooth-wrapper" ref={wrapper}>
-      <div id="smooth-content" ref={content}>
+      <div id="smooth-content" ref={contentRef}>
         {children}
         <Footer content={footer} ref={footerRef} />
       </div>

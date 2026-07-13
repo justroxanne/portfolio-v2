@@ -15,7 +15,9 @@ import styles from "./Drawer.module.css";
 export const Drawer = ({
   onOpenChange,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Root>) => {
+}: React.ComponentPropsWithoutRef<typeof Root> & {
+  className?: string;
+}) => {
   return <Root onOpenChange={onOpenChange} {...props} />;
 };
 

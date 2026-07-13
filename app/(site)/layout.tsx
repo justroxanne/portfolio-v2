@@ -12,6 +12,8 @@ import { urlFor } from "@/lib/imageUrl";
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["system-ui"],
 });
 
 export async function generateMetadata() {
@@ -46,9 +48,12 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${spaceGrotesk.variable}`}>
         <CursorProvider>
-          <Header navigation={navigation!} socials={footer?.socials ?? null} />
           <Cursor />
           <SmoothScroller footer={footer}>
+            <Header
+              navigation={navigation!}
+              socials={footer?.socials ?? null}
+            />
             <main id="main">{children}</main>
           </SmoothScroller>
         </CursorProvider>

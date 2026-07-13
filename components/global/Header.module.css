@@ -27,6 +27,14 @@
 }
 
 .mobile-navigation {
+  display: block;
+
+  @media (--screen-lg) {
+    display: none;
+  }
+}
+
+.navigation {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -69,13 +77,21 @@
   & span:nth-of-type(3) {
     width: 75%;
   }
+
+  @media (--screen-lg) {
+    display: none;
+  }
 }
 
 .desktop-navigation {
-  display: flex;
+  display: none;
   justify-content: space-between;
   width: 100%;
   margin-inline: 1rem;
+
+  @media (--screen-lg) {
+    display: flex;
+  }
 }
 
 .menu-drawer {
